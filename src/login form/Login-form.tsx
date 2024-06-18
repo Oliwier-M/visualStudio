@@ -4,6 +4,8 @@ import LoginIcon from '@mui/icons-material/Login';
 import { Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import { useApi } from '../ApiProvider';
 
 type FormValues = {
   username: string;
@@ -11,10 +13,21 @@ type FormValues = {
 };
 
 function LoginForm() {
-  const submit = useCallback((values: FormValues, formik: any) => {
-    console.log(values);
-    formik.resetForm();
-  }, []);
+  const navigate = useNavigate();
+  const apiClient = useApi();
+
+  const submit = useCallback(
+    (values: FormValues, formik: any) => {
+      apiClient.login(values).then((response) => {
+        if (response.success) {
+          navigate('/home');
+        } else {
+          formik.setFieldError('username', 'Invalid username or password');
+        }
+      });
+    },
+    [apiClient, navigate],
+  );
 
   //validation Schema is immutable, will only change if we change validation rules, otherwise immutable
   const validationSchema = useMemo(

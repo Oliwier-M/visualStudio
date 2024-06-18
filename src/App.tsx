@@ -1,49 +1,26 @@
 import React from 'react';
 import LoginForm from './login form/Login-form';
-import GeneralList from './GeneralList';
-import BookItem from './books/BookItem';
-import Book from './interfaces/Book';
+import HomePage from './pages/HomePage';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import AboutUs from './pages/AboutUs';
+import BooksList from './lists/BooksList';
+import ApiProvider from './ApiProvider';
 
-// npm start !!!!!!!!!!!!!!!!!!!!
-
-const mockBooks: Book[] = [
-  {
-    id: 1,
-    title: 'title 1',
-    author: 'author 1',
-    description: 'sjnfaieugrreadve',
-    year: 1895,
-  },
-  {
-    id: 2,
-    title: 'title 2',
-    author: 'author 2',
-    description: 'sjnfaieugrreadasfdsdfsdfsdfdsve',
-    year: 1894,
-  },
-  {
-    id: 3,
-    title: 'title1',
-    author: 'author3',
-    description: 'sjnfaieugrrasasxzcxbcvbxvcvbxcbxceadve',
-    year: 2003,
-  },
-];
-
-function App() {
+export default function App() {
   return (
-    <div className="List">
-      <GeneralList>
-        {mockBooks.map((book) => (
-          <BookItem key={book.id} book={book} />
-        ))}
-      </GeneralList>
-    </div>
+    <BrowserRouter>
+      <ApiProvider>
+        <Routes>
+          <Route path="*" element={<h1>404</h1>} />
 
-    // <div className="App">
-    //   <LoginForm />
-    // </div>
+          <Route path="/home" element={<HomePage />}>
+            <Route path="about" element={<AboutUs />} />
+            <Route path="books" element={<BooksList />} />
+          </Route>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/" element={<Navigate to="/login" />} />
+        </Routes>
+      </ApiProvider>
+    </BrowserRouter>
   );
 }
-
-export default App;
