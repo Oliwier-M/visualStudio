@@ -1,18 +1,23 @@
 import { useState, useEffect } from 'react';
 import { Stack, Typography } from '@mui/material';
-import GeneralList from './GenList';
-import BookItem from '../items/BookItem';
-import { useApi } from '../ApiProvider';
-import Book from '../interfaces/Book';
-import { BookResponseDto } from '../dto/login.dto';
+import RowList from '../../lists/RowList';
+import BookItem from '../../items/BookItem';
+import { useApi } from '../../ApiProvider';
+import Book from '../../interfaces/Book';
+import { BookResponseDto } from '../../dto/login.dto';
 
 export default function BooksList() {
+  const apiClient = useApi();
+
+  apiClient.getBooks().then((response) => {
+    console.log(response);
+  });
+
   const [booksByGenre, setBooksByGenre] = useState<{ [genre: string]: Book[] }>(
     {},
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const apiClient = useApi();
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -26,7 +31,7 @@ export default function BooksList() {
             author: book.author || 'Unknown',
             publisher: book.publisher || 'Unknown',
             year: book.year || 0,
-            available: book.available ?? false,
+            available: book.available > 0 || false,
             genre: book.genre || 'Unknown',
             description: book.description || 'No description',
             image: book.image || '',
@@ -74,11 +79,11 @@ export default function BooksList() {
         <div key={genre}>
           <Typography variant="h6">{genre}</Typography>
           <Stack>
-            <GeneralList>
+            <RowList>
               {booksByGenre[genre].map((book) => (
                 <BookItem key={book.id} book={book} />
               ))}
-            </GeneralList>
+            </RowList>
           </Stack>
         </div>
       ))}

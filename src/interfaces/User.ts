@@ -1,5 +1,3 @@
-import exp from 'constants';
-
 interface User {
   id: number | undefined;
   firstName: string | undefined;

@@ -5,7 +5,7 @@ interface GeneralListProps {
   children: React.ReactNode;
 }
 
-const GeneralList: React.FC<GeneralListProps> = ({ children }) => {
+const RowList: React.FC<GeneralListProps> = ({ children }) => {
   return (
     <Box sx={{ marginX: 2, marginY: 3 }}>
       <Box
@@ -29,4 +29,4 @@ const GeneralList: React.FC<GeneralListProps> = ({ children }) => {
   );
 };
 
-export default GeneralList;
+export default RowList;

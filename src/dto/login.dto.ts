@@ -1,38 +1,102 @@
+import exp from 'constants';
+import Book from '../interfaces/Book';
+import User from '../interfaces/User';
+
 export class LoginDto {
-  username: string | undefined;
-  password: string | undefined;
+  username!: string;
+  password!: string;
+}
+
+export class RegisterDto {
+  password!: string;
+  role!: string;
+  firstName!: string;
+  lastName!: string;
+  email!: string;
 }
 
 export class LoginResponseDto {
-  token: string | undefined;
+  token!: string;
+  role!: string;
+}
+
+export class RegisterResponseDto {
+  userId!: number;
+  email!: string;
+  role!: string;
+}
+
+export class AddBookDto {
+  isbn!: number;
+  title!: string;
+  author!: string;
+  publisher!: string;
+  year!: number;
+  available!: number;
+  genre!: string;
+  description!: string;
+  image!: string;
+  rating!: number;
+}
+
+export class AddBookResponseDto {
+  id!: number;
+  copies!: number;
 }
 
 export class BookResponseDto {
-  id: number | undefined;
-  isbn: number | undefined;
-  title: string | undefined;
-  author: string | undefined;
-  publisher: string | undefined;
-  year: number | undefined;
-  available: boolean | undefined;
-  genre: string | undefined;
-  description: string | undefined;
-  image: string | undefined;
-  rating: number | undefined;
+  id!: number;
+  isbn!: number;
+  title!: string;
+  author!: string;
+  publisher!: string;
+  year!: number;
+  available!: number;
+  genre!: string;
+  description!: string;
+  image!: string;
+  rating!: number;
 }
 
 export class UserResponseDto {
-  id: number | undefined;
-  firstName: string | undefined;
-  lastName: string | undefined;
-  email: string | undefined;
+  id!: number;
+  firstName!: string;
+  lastName!: string;
+  email!: string;
 }
 
 export class LoanResponseDto {
-  id: number | undefined;
-  loanDate: Date | undefined;
-  dueDate: Date | undefined;
-  retrieved: boolean | undefined;
-  user: UserResponseDto | undefined;
-  book: BookResponseDto | undefined;
+  id!: number;
+  loanDate!: Date;
+  dueDate!: Date;
+  retrieved!: Date | null;
+  user!: User | null;
+  book!: Book | null;
+}
+
+export class UserDto {
+  id!: number;
+  firstName!: string;
+  lastName!: string;
+  email!: string;
+}
+
+export class BookDto {
+  id!: number;
+  isbn!: number;
+  title!: string;
+  author!: string;
+  publisher!: string;
+  year!: number;
+  available!: number;
+  genre!: string;
+  description!: string;
+  image!: string;
+  rating!: number;
+}
+
+export class LoanDto {
+  dueDate!: Date;
+  userId!: number;
+  bookId!: number;
 }

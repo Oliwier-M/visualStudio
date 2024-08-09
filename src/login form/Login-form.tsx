@@ -2,7 +2,7 @@ import { Button, TextField } from '@mui/material';
 import './Login-form.css';
 import LoginIcon from '@mui/icons-material/Login';
 import { Formik } from 'formik';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useApi } from '../ApiProvider';
@@ -15,12 +15,28 @@ type FormValues = {
 function LoginForm() {
   const navigate = useNavigate();
   const apiClient = useApi();
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   const submit = useCallback(
     (values: FormValues, formik: any) => {
       apiClient.login(values).then((response) => {
         if (response.success) {
-          navigate('/home');
+          const role = response.data?.role;
+          console.log('role in login response: ', role);
+          if (role !== undefined) {
+            setUserRole(role);
+          } else {
+            setUserRole(null);
+          }
+
+          // check role here
+          if (role === 'ROLE_READER') {
+            navigate('/home');
+          } else if (role === 'ROLE_ADMIN') {
+            navigate('/homeadm');
+          } else {
+            navigate('/login');
+          }
         } else {
           formik.setFieldError('username', 'Invalid username or password');
         }
